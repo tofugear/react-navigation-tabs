@@ -32,12 +32,16 @@ export default function withDimensions<Props extends InjectedProps>(
     }
 
     componentDidMount() {
-      Dimensions.addEventListener('change', this.handleOrientationChange);
+      this.dimensionHandler = Dimensions.addEventListener(
+        'change',
+        this.handleOrientationChange
+      );
     }
 
     componentWillUnmount() {
-      Dimensions.removeEventListener('change', this.handleOrientationChange);
+      this.dimensionHandler.remove();
     }
+    dimensionHandler: any;
 
     handleOrientationChange = ({ window }: { window: ScaledSize }) => {
       const { width, height } = window;
